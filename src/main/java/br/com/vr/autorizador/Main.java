@@ -1,4 +1,4 @@
-package org.example;
+package br.com.vr.autorizador;
 
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
