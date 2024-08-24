@@ -1,6 +1,7 @@
 package br.com.vr.autorizador.domain.cartao;
 
 import br.com.vr.autorizador.domain.validation.ValidationHandler;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 
@@ -8,7 +9,6 @@ public class Cartao {
 
     private static final BigDecimal NEW_CARD_INITIAL_BALANCE = new BigDecimal(500);
 
-    private Long id;
     private String numeroCartao;
     private String senha;
     private BigDecimal saldo;
@@ -27,8 +27,28 @@ public class Cartao {
         new CartaoValidator(this, handler).validate();
     }
 
-    public Long getId() {
-        return id;
+    public void debitFromBalance(BigDecimal debitValue, String password, ValidationHandler handler) {
+        if (!validateSenha(password)) {
+            handler.append("Senha incorreta");
+        }
+
+        if (debitValue == null || debitValue.compareTo(BigDecimal.ZERO) <= 0) {
+            handler.append("Valor da transação inválido");
+        }
+
+        if (saldo.compareTo(debitValue) < 0) {
+            handler.append("Saldo insuficiente");
+        }
+
+        updateBalance(saldo.subtract(debitValue));
+    }
+
+    private void updateBalance(BigDecimal newBalance) {
+        this.saldo = newBalance;
+    }
+
+    private boolean validateSenha(String password) {
+        return StringUtils.isNotBlank(password) && this.senha.equals(password);
     }
 
     public String getNumeroCartao() {

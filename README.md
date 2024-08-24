@@ -17,3 +17,8 @@
     * Adicionado **Notification Pattern** para agrupar e gerenciar as notificações de validações.
     * Em NoStacktraceException foi configurado para não incluir a stack trace nas exceções lançadas.
     * Incluido lib Apache Commons Lang 3 para ajudar nas validações.
+
+### Commit 2
+* Em CartaoTest foi aplicado TDD com teste de unidade para debitar do cartão.
+* Aplicado clean code em CartaoValidator
+* Adicionado regras para debitar do Cartão

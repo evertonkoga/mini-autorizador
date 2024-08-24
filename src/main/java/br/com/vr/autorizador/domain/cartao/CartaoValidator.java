@@ -15,10 +15,17 @@ public class CartaoValidator extends Validator {
     }
     @Override
     public void validate() {
+        validateSenhaConstraints();
+        validateNumeroCartaoConstraints();
+    }
+
+    private void validateSenhaConstraints() {
         if (StringUtils.isBlank(this.cartao.getSenha())) {
             this.validationHandler().append("'senha' é obrigatória");
         }
+    }
 
+    private void validateNumeroCartaoConstraints() {
         if (StringUtils.isBlank(this.cartao.getNumeroCartao())) {
             this.validationHandler().append("'numeroCartao' é obrigatório");
         }
