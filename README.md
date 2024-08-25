@@ -33,3 +33,7 @@
 * Na classe CreateCartaoUseCaseImpl, foi abordado: 
   * Alguns ajustes para utilizar o **Notification Pattern**.
   * Aplicado **Command Pattern** no Use Case, em que o nome da classe diz qual a ação sera executado e a mesma possuirá apenas um método execute.
+
+### Commit 4
+* Em GetCartaoByNumeroUseCaseTest foi aplicado TDD com teste de unidade no Use Case para consulta de cartão por numero.
+* Foi aplicado o Mockito.reset em união @BeforeEach para garantir que os mocks sejam limpos a cada execução dos teste. 

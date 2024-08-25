@@ -3,6 +3,7 @@ package br.com.vr.autorizador.application.cartao.create;
 import br.com.vr.autorizador.domain.cartao.CartaoGateway;
 import br.com.vr.autorizador.domain.exceptions.NotificationException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -34,6 +35,11 @@ public class CreateCartaoUseCaseTest {
     private final String expectedCardPassword = "1234";
     private final BigDecimal expectedCardBalance = new BigDecimal(500);
     private final Integer expectedErrorNumber = 1;
+
+    @BeforeEach
+    void cleanUp() {
+        Mockito.reset(cartaoGateway);
+    }
 
     @Test
     public void deveCriarCartaoComSaldoInicialDe500() {
