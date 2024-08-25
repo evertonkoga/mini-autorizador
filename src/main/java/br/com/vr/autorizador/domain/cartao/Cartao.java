@@ -27,17 +27,20 @@ public class Cartao {
         new CartaoValidator(this, handler).validate();
     }
 
-    public void debitFromBalance(BigDecimal debitValue, String password, ValidationHandler handler) {
+    public void debit(BigDecimal debitValue, String password, ValidationHandler handler) {
         if (!validateSenha(password)) {
             handler.append("Senha incorreta");
+            return;
         }
 
         if (debitValue == null || debitValue.compareTo(BigDecimal.ZERO) <= 0) {
             handler.append("Valor da transação inválido");
+            return;
         }
 
         if (saldo.compareTo(debitValue) < 0) {
             handler.append("Saldo insuficiente");
+            return;
         }
 
         updateBalance(saldo.subtract(debitValue));

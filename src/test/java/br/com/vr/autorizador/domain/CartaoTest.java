@@ -113,7 +113,7 @@ public class CartaoTest {
         Assertions.assertNotNull(cardCreated);
 
         final var actualException = Assertions.assertThrows(
-            DomainException.class, () -> cardCreated.debitFromBalance(
+            DomainException.class, () -> cardCreated.debit(
                     valorDebito, expectedCardPassword, new ThrowsValidationHandler()
                 )
         );
@@ -130,7 +130,7 @@ public class CartaoTest {
         Assertions.assertNotNull(cardCreated);
 
         final var actualException = Assertions.assertThrows(
-                DomainException.class, () -> cardCreated.debitFromBalance(
+                DomainException.class, () -> cardCreated.debit(
                         debitValueGreaterThanBalance, expectedCardPassword, new ThrowsValidationHandler()
                 )
         );
@@ -168,7 +168,7 @@ public class CartaoTest {
         Assertions.assertNotNull(cardCreated);
 
         listaDebitos.forEach(debitAmount -> {
-            cardCreated.debitFromBalance(debitAmount, expectedCardPassword, new ThrowsValidationHandler());
+            cardCreated.debit(debitAmount, expectedCardPassword, new ThrowsValidationHandler());
         });
 
         Assertions.assertEquals(saldoFinal, cardCreated.getSaldo());
@@ -184,7 +184,7 @@ public class CartaoTest {
         Assertions.assertNotNull(cardCreated);
 
         final var actualException = Assertions.assertThrows(
-                DomainException.class, () -> cardCreated.debitFromBalance(
+                DomainException.class, () -> cardCreated.debit(
                         debitValue, invalidPassword, new ThrowsValidationHandler()
                 )
         );

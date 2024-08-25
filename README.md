@@ -36,4 +36,8 @@
 
 ### Commit 4
 * Em GetCartaoByNumeroUseCaseTest foi aplicado TDD com teste de unidade no Use Case para consulta de cartão por numero.
-* Foi aplicado o Mockito.reset em união @BeforeEach para garantir que os mocks sejam limpos a cada execução dos teste. 
+* Foi aplicado o Mockito.reset em união @BeforeEach para garantir que os mocks sejam limpos a cada execução dos teste.
+
+### Commit 5
+* Em DebitCartaoUseCaseTest foi aplicado TDD com teste de unidade no Use Case para debitar do cartão.
+* **Observação:** Nos testes não fiz uso dos @ParameterizedTest, visto que os testes de unidade na camada de dominio, validam todas as possibilidades possíves.

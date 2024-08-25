@@ -5,4 +5,5 @@ import java.util.Optional;
 public interface CartaoGateway {
     Cartao create(Cartao cartao);
     Optional<Cartao> findBy(String numeroCartao);
+    void debit(Cartao cartao);
 }
