@@ -6,7 +6,7 @@ import br.com.vr.autorizador.domain.validation.ValidationHandler;
 
 public class ThrowsValidationHandler implements ValidationHandler {
     @Override
-    public ValidationHandler append(final String message) {
+    public ValidationHandler append(String message) {
         throw DomainException.with(new Error(message));
     }
 }

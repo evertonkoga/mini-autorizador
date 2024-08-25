@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class CartaoTest {
-
+    private static final String STRING_WITH_SPACE_ONLY = "    ";
     private Cartao cardCreated;
     private final String expectedCardNumber = "6549873025634501";
     private final String expectedCardPassword = "1234";
@@ -40,7 +40,7 @@ public class CartaoTest {
 
     @ParameterizedTest
     @NullAndEmptySource
-    @ValueSource(strings = {"    "})
+    @ValueSource(strings = {STRING_WITH_SPACE_ONLY})
     public void deveLancarExcecaoAoCriarCartaoComNumeroNuloOuVazio(String numeroCartao) {
         final var expectedErrorMessage = "'numeroCartao' é obrigatório";
 
@@ -50,12 +50,13 @@ public class CartaoTest {
                 DomainException.class, () -> cardCreated.validate(new ThrowsValidationHandler())
         );
 
-        Assertions.assertEquals(expectedErrorNumber, actualException.getErrors().size());
+        Assertions.assertEquals(expectedErrorNumber, actualException.numberOfErrors());
         Assertions.assertEquals(expectedErrorMessage, actualException.firstError().message());
     }
 
     @ParameterizedTest
     @NullAndEmptySource
+    @ValueSource(strings = {STRING_WITH_SPACE_ONLY})
     public void deveLancarExcecaoAoCriarCartaoComSenhaNulaOuVazia(String senha) {
         final var expectedErrorMessage = "'senha' é obrigatória";
 
@@ -65,7 +66,7 @@ public class CartaoTest {
                 DomainException.class, () -> cardCreated.validate(new ThrowsValidationHandler())
         );
 
-        Assertions.assertEquals(expectedErrorNumber, actualException.getErrors().size());
+        Assertions.assertEquals(expectedErrorNumber, actualException.numberOfErrors());
         Assertions.assertEquals(expectedErrorMessage, actualException.firstError().message());
     }
 
@@ -80,7 +81,7 @@ public class CartaoTest {
                 DomainException.class, () -> cardCreated.validate(new ThrowsValidationHandler())
         );
 
-        Assertions.assertEquals(expectedErrorNumber, actualException.getErrors().size());
+        Assertions.assertEquals(expectedErrorNumber, actualException.numberOfErrors());
         Assertions.assertEquals(expectedErrorMessage, actualException.firstError().message());
     }
 
@@ -95,7 +96,7 @@ public class CartaoTest {
                 DomainException.class, () -> cardCreated.validate(new ThrowsValidationHandler())
         );
 
-        Assertions.assertEquals(expectedErrorNumber, actualException.getErrors().size());
+        Assertions.assertEquals(expectedErrorNumber, actualException.numberOfErrors());
         Assertions.assertEquals(expectedErrorMessage, actualException.firstError().message());
     }
 
@@ -116,7 +117,7 @@ public class CartaoTest {
                     valorDebito, expectedCardPassword, new ThrowsValidationHandler()
                 )
         );
-        Assertions.assertEquals(expectedErrorNumber, actualException.getErrors().size());
+        Assertions.assertEquals(expectedErrorNumber, actualException.numberOfErrors());
         Assertions.assertEquals(expectedErrorMessage, actualException.firstError().message());
     }
 
@@ -133,7 +134,7 @@ public class CartaoTest {
                         debitValueGreaterThanBalance, expectedCardPassword, new ThrowsValidationHandler()
                 )
         );
-        Assertions.assertEquals(expectedErrorNumber, actualException.getErrors().size());
+        Assertions.assertEquals(expectedErrorNumber, actualException.numberOfErrors());
         Assertions.assertEquals(expectedErrorMessage, actualException.firstError().message());
     }
 
@@ -187,7 +188,7 @@ public class CartaoTest {
                         debitValue, invalidPassword, new ThrowsValidationHandler()
                 )
         );
-        Assertions.assertEquals(expectedErrorNumber, actualException.getErrors().size());
+        Assertions.assertEquals(expectedErrorNumber, actualException.numberOfErrors());
         Assertions.assertEquals(expectedErrorMessage, actualException.firstError().message());
     }
 }

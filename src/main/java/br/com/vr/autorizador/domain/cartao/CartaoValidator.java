@@ -28,6 +28,7 @@ public class CartaoValidator extends Validator {
     private void validateNumeroCartaoConstraints() {
         if (StringUtils.isBlank(this.cartao.getNumeroCartao())) {
             this.validationHandler().append("'numeroCartao' é obrigatório");
+            return;
         }
 
         if(!StringUtils.isNumeric(this.cartao.getNumeroCartao())) {
