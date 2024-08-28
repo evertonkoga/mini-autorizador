@@ -41,3 +41,19 @@
 ### Commit 5
 * Em DebitCartaoUseCaseTest foi aplicado TDD com teste de unidade no Use Case para debitar do cartão.
 * **Observação:** Nos testes não fiz uso dos @ParameterizedTest, visto que os testes de unidade na camada de dominio, validam todas as possibilidades possíves.
+
+### Commit 6
+* Adicionado os pacotes do Spring Boot (web e data-jpa) e MySQL
+* Adicionado docker-compose para o banco de dados MySQL
+* Configuração do profile, foi abordado:
+  * Boas práticas:
+    * Na configuração do datasource, foi aplicado interpolação de variáveis, para que as mesmas sejam aplicadas conforme os dados do profile em execução, mantendo o dinamisdo desses dados.
+    * **connection-timeout** - tempo que uma thread espera para receber um conexão do pool.
+    * **ddl-auto** - uma boa prática é deixar **none** por padrão e utilizar o **update** em desenvolvimento.
+    * **max-lifetime** - tempo máximo que uma conexão pode ficar ativa, visando segurança.
+  * Para performance:
+    * **auto-commit** - desabilitado para que o Spring + Hibernate passe a gerenciar a transação.
+    * **maximum-pool-size** - quantidade máxima de conexões no pool para aplicação.
+    * **minimum-idle** - quantidade mínima de conexões caso o serviço fique ocioso.
+    * **open-in-view** - desabilitado para que não segure a transação desde a controller.
+    * **hibernate.connection.provider_disables_autocommit** - habilitado para afirmar que o auto-commit está desabilitado e evitar que o Hibernate tenha que validar antes de cada transação e consumir uma conexão do pool.
