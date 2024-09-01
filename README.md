@@ -66,3 +66,8 @@
 * Configurado o banco H2 para os testes de integração.
 * Utilizado a anotação **@DataJpaTest** para que o Spring Boot levante apenas as configurações para testar a repository, deixando os testes de integração mais rápido.
 * Foi criado uma anotação **MySQLGatewayTest** para centralizar e organizar todas a anotações necessárias para testar do gateway, inclusive a extension customizada **CleanUpExtension** para garantir que antes de cada teste seja executado a limpeza da base de dados automaticamente e não correr o risco de haver dados sujos de testes anteriores.
+
+### Commit 8
+* Aplicado TDD com teste de integração no Use Case com repository.
+* Criado anotação **IntegrationTest** para centralizar e organizar todas a anotações necessárias para testar os Use Cases com a repository.
+* Utilizada a anotação **@SpyBean** para espionar/validar a chamada ao gateway no Use Case e garantir uma dupla verificação, alem da consulta na repository.

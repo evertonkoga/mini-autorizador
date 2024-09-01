@@ -68,8 +68,8 @@ public class CartaoMySQLGatewayTest {
 
         cartaoRepository.save(CartaoJpaEntity.from(newCard));
 
-        final var category = cartaoGateway.findBy(invalidCardNumber);
-        Assertions.assertTrue(category.isEmpty());
+        final var cardFound = cartaoGateway.findBy(invalidCardNumber);
+        Assertions.assertTrue(cardFound.isEmpty());
     }
 
     @Test

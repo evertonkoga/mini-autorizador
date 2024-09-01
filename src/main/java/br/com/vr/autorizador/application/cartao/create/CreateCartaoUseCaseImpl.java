@@ -4,9 +4,11 @@ import br.com.vr.autorizador.domain.cartao.Cartao;
 import br.com.vr.autorizador.domain.cartao.CartaoGateway;
 import br.com.vr.autorizador.domain.exceptions.NotificationException;
 import br.com.vr.autorizador.domain.validation.handler.NotificationHandler;
+import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
+@Component
 public class CreateCartaoUseCaseImpl implements CreateCartaoUseCase {
     private final CartaoGateway cartaoGateway;
 

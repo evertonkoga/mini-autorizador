@@ -4,7 +4,6 @@ import br.com.vr.autorizador.domain.validation.ValidationHandler;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 public class Cartao {
 

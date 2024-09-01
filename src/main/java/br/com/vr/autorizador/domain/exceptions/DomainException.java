@@ -1,6 +1,7 @@
 package br.com.vr.autorizador.domain.exceptions;
 
 import br.com.vr.autorizador.domain.validation.Error;
+
 import java.util.List;
 
 public class DomainException extends NoStacktraceException implements ExceptionHandler {
