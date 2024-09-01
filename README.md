@@ -4,7 +4,9 @@
 - JDK 22
 - IDE Intellij Community Edition
 - Spring Boot 3.3.2
-  - Lib Starter Test
+  - Starter Test
+  - Starter Web
+  - Starter Data Jpa
 
 ## Breve explicação por commit
 ### Commit 1
@@ -49,7 +51,7 @@
   * Boas práticas:
     * Na configuração do datasource, foi aplicado interpolação de variáveis, para que as mesmas sejam aplicadas conforme os dados do profile em execução, mantendo o dinamisdo desses dados.
     * **connection-timeout** - tempo que uma thread espera para receber um conexão do pool.
-    * **ddl-auto** - uma boa prática é deixar **none** por padrão e utilizar o **update** em desenvolvimento.
+    * **ddl-auto** - uma boa prática é deixar **none** por padrão e utilizar o **update** em desenvolvimento, uma melhor abordagem a essa configuração seria implementar **migrations**.
     * **max-lifetime** - tempo máximo que uma conexão pode ficar ativa, visando segurança.
   * Para performance:
     * **auto-commit** - desabilitado para que o Spring + Hibernate passe a gerenciar a transação.
@@ -57,3 +59,10 @@
     * **minimum-idle** - quantidade mínima de conexões caso o serviço fique ocioso.
     * **open-in-view** - desabilitado para que não segure a transação desde a controller.
     * **hibernate.connection.provider_disables_autocommit** - habilitado para afirmar que o auto-commit está desabilitado e evitar que o Hibernate tenha que validar antes de cada transação e consumir uma conexão do pool.
+
+### Commit 7
+* Em CartaoMySQLGatewayTest foi aplicado TDD com teste de integração no Gateway de dominio.
+* Implementado o Gateway de dominio com MySQL, para que a camada de aplication possa se comunicar com a camada de percistencia.
+* Configurado o banco H2 para os testes de integração.
+* Utilizado a anotação **@DataJpaTest** para que o Spring Boot levante apenas as configurações para testar a repository, deixando os testes de integração mais rápido.
+* Foi criado uma anotação **MySQLGatewayTest** para centralizar e organizar todas a anotações necessárias para testar do gateway, inclusive a extension customizada **CleanUpExtension** para garantir que antes de cada teste seja executado a limpeza da base de dados automaticamente e não correr o risco de haver dados sujos de testes anteriores.

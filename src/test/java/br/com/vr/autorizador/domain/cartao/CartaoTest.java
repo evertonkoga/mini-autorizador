@@ -1,6 +1,5 @@
-package br.com.vr.autorizador.domain;
+package br.com.vr.autorizador.domain.cartao;
 
-import br.com.vr.autorizador.domain.cartao.Cartao;
 import br.com.vr.autorizador.domain.exceptions.DomainException;
 import br.com.vr.autorizador.domain.validation.handler.ThrowsValidationHandler;
 import org.junit.jupiter.api.Assertions;

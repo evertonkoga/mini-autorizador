@@ -4,6 +4,7 @@ import br.com.vr.autorizador.domain.validation.ValidationHandler;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class Cartao {
 
@@ -21,6 +22,10 @@ public class Cartao {
 
     public static Cartao newCartao(String numeroCartao, String senha) {
         return new Cartao(numeroCartao, senha, NEW_CARD_INITIAL_BALANCE);
+    }
+
+    public static Cartao with(String numeroCartao, String senha, BigDecimal saldo) {
+        return new Cartao(numeroCartao, senha, saldo);
     }
 
     public void validate(ValidationHandler handler) {
