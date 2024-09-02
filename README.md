@@ -82,3 +82,6 @@
 ### Commit 10
 * Em CartaoRestTest foi aplicado TDD com teste de integração para consultar saldo do cartão.
 * Ajustado lançamento de exceção do tipo Not Found.
+
+### Commit 11
+* Em TransacaoRestTest foi aplicado TDD com teste de integração para debitar do cartão.

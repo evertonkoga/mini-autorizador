@@ -20,10 +20,7 @@ public class DebitCartaoUseCaseImpl implements DebitCartaoUseCase {
     public void execute(DebitCartaoInput input) {
         final String numeroCartao = input.numeroCartao();
         final var cartao = cartaoGateway.findBy(numeroCartao)
-                .orElseThrow(() -> new NotificationException(
-                                "Cartão de número %s não encontrado".formatted(numeroCartao)
-                        )
-                );
+                .orElseThrow(() -> new NotificationException("Cartao %s nao encontrado".formatted(input.numeroCartao())));
 
         final var notification = NotificationHandler.create();
         cartao.debit(input.valor(), input.senhaCartao(), notification);

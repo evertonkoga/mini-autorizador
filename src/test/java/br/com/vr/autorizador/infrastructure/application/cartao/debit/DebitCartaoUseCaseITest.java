@@ -128,7 +128,7 @@ public class DebitCartaoUseCaseITest {
     @Test
     public void deveLancarExcecaoAoInformarNumeroCartaoInvalido() {
         final String invalidCardNumber = "7549873025634501";
-        final String expectedErrorMessage = "Cartão de número %s não encontrado".formatted(invalidCardNumber);
+        final String expectedErrorMessage = "Cartao %s nao encontrado".formatted(invalidCardNumber);
 
         final var input = DebitCartaoInput.with(invalidCardNumber, expectedCardPassword, debitValue);
         final var actualException = Assertions.assertThrows(
