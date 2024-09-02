@@ -2,8 +2,11 @@ package br.com.vr.autorizador.infrastructure.rest;
 
 import br.com.vr.autorizador.application.cartao.create.CreateCartaoOutput;
 import br.com.vr.autorizador.application.cartao.create.CreateCartaoUseCase;
+import br.com.vr.autorizador.application.cartao.get.GetCartaoByNumeroOutput;
+import br.com.vr.autorizador.application.cartao.get.GetCartaoByNumeroUseCase;
 import br.com.vr.autorizador.domain.cartao.Cartao;
 import br.com.vr.autorizador.domain.exceptions.DomainException;
+import br.com.vr.autorizador.domain.exceptions.NotFoundException;
 import br.com.vr.autorizador.domain.exceptions.NotificationException;
 import br.com.vr.autorizador.domain.validation.Error;
 import br.com.vr.autorizador.infrastructure.ControllerTest;
@@ -24,10 +27,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.times;
 
 @ControllerTest(controllers = CartaoRest.class)
@@ -41,6 +44,8 @@ public class CartaoRestTest {
     private ObjectMapper objectMapper;
     @MockBean
     CreateCartaoUseCase createCartaoUseCase;
+    @MockBean
+    GetCartaoByNumeroUseCase getCartaoByNumeroUseCase;
 
     private Cartao newCartao;
     private final String expectedCardNumber = "6549873025634501";
@@ -159,7 +164,7 @@ public class CartaoRestTest {
     }
 
     @Test
-    public void deveTratarELancarExcecaoAoCriarCartaoComErroNaoTratados() throws Exception {
+    public void deveTratarELancarExcecaoAoCriarCartaoComErroNaoTratado() throws Exception {
         final var expectedErrorMessage = "'numeroCartao' é obrigatório";
 
         Mockito.when(createCartaoUseCase.execute(any()))
@@ -170,6 +175,60 @@ public class CartaoRestTest {
                 .post("/cartoes")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(inputRequest));
+
+        mockMvc.perform(request)
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.equalTo(expectedErrorMessage)));
+    }
+
+    @Test
+    public void deveConsultarCartaoPorNumero() throws Exception {
+        var newCartao = Cartao.newCartao(expectedCardNumber, expectedCardPassword);
+        Mockito.when(getCartaoByNumeroUseCase.execute(any()))
+                .thenReturn(GetCartaoByNumeroOutput.from(newCartao));
+
+        final var request = MockMvcRequestBuilders
+                .get("/cartoes/{numeroCartao}", expectedCardNumber)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(request)
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(new BigDecimal("500").toString()));
+
+        Mockito.verify(getCartaoByNumeroUseCase, times(1)).execute(eq(expectedCardNumber));
+    }
+
+    @Test
+    public void deveLancarExcecaoAoConsultarCartaoComNumeroInexistente() throws Exception {
+        final String cardNumber = "7549873025634501";
+
+        Mockito.when(getCartaoByNumeroUseCase.execute(any()))
+                .thenThrow(NotFoundException.with(Cartao.class, cardNumber));
+
+        final var request = MockMvcRequestBuilders
+                .get("/cartoes/{numeroCartao}", expectedCardNumber)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(request)
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.content().string(""));
+
+        Mockito.verify(getCartaoByNumeroUseCase, times(1)).execute(eq(expectedCardNumber));
+    }
+
+    @Test
+    public void deveLancarExcecaoAoConsultarCartaoComErroNaoTratado() throws Exception {
+        final var expectedErrorMessage = "'numeroCartao' é obrigatório";
+
+        Mockito.when(getCartaoByNumeroUseCase.execute(any()))
+                .thenThrow(DomainException.with(new Error(expectedErrorMessage)));
+
+        final var request = MockMvcRequestBuilders
+                .get("/cartoes/{numeroCartao}", expectedCardNumber)
+                .contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(request)
                 .andDo(MockMvcResultHandlers.print())

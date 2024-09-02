@@ -2,7 +2,7 @@ package br.com.vr.autorizador.application.cartao.get;
 
 import br.com.vr.autorizador.domain.cartao.Cartao;
 import br.com.vr.autorizador.domain.cartao.CartaoGateway;
-import br.com.vr.autorizador.domain.exceptions.NotificationException;
+import br.com.vr.autorizador.domain.exceptions.NotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,13 +53,13 @@ public class GetCartaoByNumeroUseCaseTest {
     @Test
     public void deveLancarExcecaoAoConsultarCartaoComNumeroInexistente() {
         final String cardNumber = "7549873025634501";
-        final String expectedErrorMessage = "Cartão de número %s não encontrado".formatted(cardNumber);
+        final String expectedErrorMessage = "Cartao %s não encontrado".formatted(cardNumber);
 
         Mockito.when(cartaoGateway.findBy(eq(cardNumber)))
                 .thenReturn(Optional.empty());
 
         final var actualException = Assertions.assertThrows(
-                NotificationException.class, () -> useCase.execute(cardNumber)
+                NotFoundException.class, () -> useCase.execute(cardNumber)
         );
 
         Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());

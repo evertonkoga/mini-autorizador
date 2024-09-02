@@ -3,7 +3,7 @@ package br.com.vr.autorizador.infrastructure.application.cartao.get;
 import br.com.vr.autorizador.application.cartao.get.GetCartaoByNumeroUseCase;
 import br.com.vr.autorizador.domain.cartao.Cartao;
 import br.com.vr.autorizador.domain.cartao.CartaoGateway;
-import br.com.vr.autorizador.domain.exceptions.NotificationException;
+import br.com.vr.autorizador.domain.exceptions.NotFoundException;
 import br.com.vr.autorizador.infrastructure.IntegrationTest;
 import br.com.vr.autorizador.infrastructure.cartao.persistence.CartaoJpaEntity;
 import br.com.vr.autorizador.infrastructure.cartao.persistence.CartaoRepository;
@@ -48,10 +48,10 @@ public class GetCartaoByNumeroUseCaseITest {
     @Test
     public void deveLancarExcecaoAoConsultarCartaoComNumeroInexistente() {
         final String cardNumber = "7549873025634501";
-        final String expectedErrorMessage = "Cartão de número %s não encontrado".formatted(cardNumber);
+        final String expectedErrorMessage = "Cartao %s não encontrado".formatted(cardNumber);
 
         final var actualException = Assertions.assertThrows(
-                NotificationException.class, () -> useCase.execute(cardNumber)
+                NotFoundException.class, () -> useCase.execute(cardNumber)
         );
 
         Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());

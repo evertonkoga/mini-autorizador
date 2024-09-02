@@ -78,3 +78,7 @@
 * Utilizado a anotação **@WebMvcTest** para que o Spring Boot levante somente as configurações para controller, deixando os testes de integração mais rápido.
 * Utilizado a anotação **@MockBean** para criar mocks de beans utilizados na controller.
 * Criado um interceptador de exceções global em GlobalExceptionHandler com **@RestControllerAdvice**, para centralizar, manipular e transformar exceções lançadas.
+
+### Commit 10
+* Em CartaoRestTest foi aplicado TDD com teste de integração para consultar saldo do cartão.
+* Ajustado lançamento de exceção do tipo Not Found.
