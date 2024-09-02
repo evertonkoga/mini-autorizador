@@ -25,7 +25,7 @@ public class TransacaoController implements TransacaoRest {
             debitCartaoUseCase.execute(input);
             return ResponseEntity.status(HttpStatus.CREATED).body("OK");
         } catch (NotificationException ne) {
-            return ResponseEntity.unprocessableEntity().body(ne.getMessage());
+            return ResponseEntity.unprocessableEntity().body(ne.firstError().message());
         }
     }
 }
