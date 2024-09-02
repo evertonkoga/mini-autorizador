@@ -85,3 +85,10 @@
 
 ### Commit 11
 * Em TransacaoRestTest foi aplicado TDD com teste de integração para debitar do cartão.
+
+### Faltando implementar: 
+* Fluxo de autenticação e autroização, utilizando o Spring Security, podendo ser da maneira simples ou uma solução mais parruda utilizando **Keycloak**.
+* Implementar testes end-to-end.
+* Criar uma documentação Swagger utilizando o **Springdoc-openapi**.
+* Implementar sistema de migration para execução de script em banco.
+* Implementar variáveis por ambiente.
