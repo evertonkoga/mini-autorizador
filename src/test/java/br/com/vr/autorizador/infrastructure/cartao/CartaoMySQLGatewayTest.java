@@ -48,6 +48,26 @@ public class CartaoMySQLGatewayTest {
     }
 
     @Test
+    public void deveLancarExcecaoAoCriarCartaoComNumeroJaCadastrado() {
+        final var expectedErrorMessage = "Cartão já existente";
+
+        final BigDecimal expectedCardBalance = new BigDecimal(500);
+        Assertions.assertEquals(0, cartaoRepository.count());
+
+        Cartao cardCreated = cartaoGateway.create(newCard);
+
+        Assertions.assertEquals(1, cartaoRepository.count());
+        Assertions.assertEquals(expectedCardNumber, cardCreated.getNumeroCartao());
+        Assertions.assertEquals(expectedCardPassword, cardCreated.getSenha());
+        Assertions.assertEquals(expectedCardBalance, cardCreated.getSaldo());
+
+        var cardFound = cartaoRepository.findById(cardCreated.getNumeroCartao()).get();
+        Assertions.assertEquals(expectedCardNumber, cardFound.getNumeroCartao());
+        Assertions.assertEquals(expectedCardPassword, cardFound.getSenha());
+        Assertions.assertEquals(expectedCardBalance, cardFound.getSaldo());
+    }
+
+    @Test
     public void deveRetornarCartaoAoConsultarComNumeroCartaoValido() {
         final BigDecimal expectedCardBalance = new BigDecimal(500);
         Assertions.assertEquals(0, cartaoRepository.count());

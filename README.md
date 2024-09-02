@@ -71,3 +71,10 @@
 * Aplicado TDD com teste de integração no Use Case com repository.
 * Criado anotação **IntegrationTest** para centralizar e organizar todas a anotações necessárias para testar os Use Cases com a repository.
 * Utilizada a anotação **@SpyBean** para espionar/validar a chamada ao gateway no Use Case e garantir uma dupla verificação, alem da consulta na repository.
+
+### Commit 9
+* Em CartaoRestTest foi aplicado TDD com teste de integração no Controller com Use Case para criação de cartão.
+* Criado anotação **ControllerTest** para centralizar e organizar todas a anotações necessárias para testar as controllers.
+* Utilizado a anotação **@WebMvcTest** para que o Spring Boot levante somente as configurações para controller, deixando os testes de integração mais rápido.
+* Utilizado a anotação **@MockBean** para criar mocks de beans utilizados na controller.
+* Criado um interceptador de exceções global em GlobalExceptionHandler com **@RestControllerAdvice**, para centralizar, manipular e transformar exceções lançadas.

@@ -26,6 +26,11 @@ public class CreateCartaoUseCaseImpl implements CreateCartaoUseCase {
             throw NotificationException.with("Não foi possível criar o cartão", notification);
         }
 
+        final var registeredCard = cartaoGateway.findBy(input.numeroCartao());
+        if (registeredCard.isPresent()) {
+            throw NotificationException.with("Cartão já existente", notification);
+        }
+
         return CreateCartaoOutput.from(this.cartaoGateway.create(cartao));
     }
 }

@@ -2,9 +2,11 @@ package br.com.vr.autorizador.infrastructure.application.cartao.create;
 
 import br.com.vr.autorizador.application.cartao.create.CreateCartaoInput;
 import br.com.vr.autorizador.application.cartao.create.CreateCartaoUseCase;
+import br.com.vr.autorizador.domain.cartao.Cartao;
 import br.com.vr.autorizador.domain.cartao.CartaoGateway;
 import br.com.vr.autorizador.domain.exceptions.NotificationException;
 import br.com.vr.autorizador.infrastructure.IntegrationTest;
+import br.com.vr.autorizador.infrastructure.cartao.persistence.CartaoJpaEntity;
 import br.com.vr.autorizador.infrastructure.cartao.persistence.CartaoRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -53,6 +55,26 @@ public class CreateCartaoUseCaseITest {
         Assertions.assertEquals(expectedCardNumber, cardFound.getNumeroCartao());
         Assertions.assertEquals(expectedCardPassword, cardFound.getSenha());
         Assertions.assertEquals(expectedCardBalance, cardFound.getSaldo());
+    }
+
+    @Test
+    public void deveLancarExcecaoAoCriarCartaoComNumeroJaCadastrado() {
+        final var expectedErrorMessage = "Cartão já existente";
+
+        Assertions.assertEquals(0, cartaoRepository.count());
+
+        final var newCartao = Cartao.newCartao(expectedCardNumber, expectedCardPassword);
+        cartaoRepository.saveAndFlush(CartaoJpaEntity.from(newCartao));
+
+        Assertions.assertEquals(1, cartaoRepository.count());
+
+        final var input = CreateCartaoInput.with(expectedCardNumber, expectedCardPassword);
+        final var actualException = Assertions.assertThrows(
+                NotificationException.class, () -> useCase.execute(input)
+        );
+
+        Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
+        Assertions.assertEquals(1, cartaoRepository.count());
     }
 
     @ParameterizedTest

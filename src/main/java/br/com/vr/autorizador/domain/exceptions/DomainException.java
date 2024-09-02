@@ -19,11 +19,15 @@ public class DomainException extends NoStacktraceException implements ExceptionH
 
     @Override
     public int numberOfErrors() {
-        return this.errors.size();
+        return getErrors().size();
     }
 
     @Override
     public Error firstError() {
-        return this.errors.get(0);
+        return getErrors().get(0);
+    }
+
+    public List<Error> getErrors() {
+        return errors;
     }
 }

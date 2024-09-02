@@ -1,5 +1,6 @@
 package br.com.vr.autorizador.application.cartao.create;
 
+import br.com.vr.autorizador.domain.cartao.Cartao;
 import br.com.vr.autorizador.domain.cartao.CartaoGateway;
 import br.com.vr.autorizador.domain.exceptions.NotificationException;
 import org.junit.jupiter.api.Assertions;
@@ -16,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.Optional;
 
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
@@ -56,6 +58,24 @@ public class CreateCartaoUseCaseTest {
                         && Objects.equals(expectedCardPassword, cartao.getSenha())
                         && Objects.equals(expectedCardBalance, cartao.getSaldo())
         ));
+    }
+
+    @Test
+    public void deveLancarExcecaoAoCriarCartaoComNumeroJaCadastrado() {
+        final var expectedErrorMessage = "Cartão já existente";
+
+        Cartao newCartao = Cartao.newCartao(expectedCardNumber, expectedCardPassword);
+        Mockito.when(cartaoGateway.findBy(any()))
+                .thenReturn(Optional.of(newCartao));
+
+        final var input = CreateCartaoInput.with(expectedCardNumber, expectedCardPassword);
+        final var actualException = Assertions.assertThrows(
+                NotificationException.class, () -> useCase.execute(input)
+        );
+
+        Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
+
+        Mockito.verify(cartaoGateway, times(0)).create(any());
     }
 
     @ParameterizedTest

@@ -29,7 +29,7 @@ public class DebitCartaoUseCaseImpl implements DebitCartaoUseCase {
         cartao.debit(input.valor(), input.senhaCartao(), notification);
 
         if (notification.hasError()) {
-            throw NotificationException.with("Não foi possível criar o cartão", notification);
+            throw NotificationException.with("Não foi possível debitar do cartão", notification);
         }
 
         this.cartaoGateway.debit(cartao);
